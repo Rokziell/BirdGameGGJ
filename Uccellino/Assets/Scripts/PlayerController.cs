@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
 
 
     public int count = 0;
-    public Transform[] slotAmount;
+    public SpriteRenderer[] slots;
     public GameObject flowerPrefab;
     internal int currentSlot;
 
@@ -105,9 +105,10 @@ public class PlayerController : MonoBehaviour
  
         if (other.gameObject.tag == "Flower")
         {
-            if (Input.GetButtonDown("Submit"))
+            if (Input.GetButtonDown("Fire1"))
             {
-                Instantiate(flowerPrefab, slotAmount[currentSlot]);
+                slots[currentSlot].sprite = other.GetComponentInChildren<SpriteRenderer>().sprite; 
+                
                 other.gameObject.SetActive(false);
                 count++;
                 maxSpeed -= slowSpeed;
@@ -118,7 +119,7 @@ public class PlayerController : MonoBehaviour
 
         if(other.gameObject.tag == "Seed")
         {
-            if (Input.GetButtonDown("Submit"))
+            if (Input.GetButtonDown("Fire1"))
             {
                 Debug.Log("Colisione con seed");
                 renderSeed = other.gameObject.GetComponent<Renderer>();
@@ -142,7 +143,7 @@ public class PlayerController : MonoBehaviour
 
     void LeaveOnePerTime()
     {
-        floorChild = slotAmount[currentSlot - 1].GetChild(0).parent = null;
+        slots[currentSlot - 1].sprite = null;
         count --;
         maxSpeed += slowSpeed;
         jumpSpeed ++;

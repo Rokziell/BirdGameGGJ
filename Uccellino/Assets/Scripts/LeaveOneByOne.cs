@@ -17,7 +17,7 @@ public class LeaveOneByOne : MonoBehaviour
     void Update()
     {
         if (Input.GetAxis("Fire2") != 0){
-            characterVariable.slotAmount[characterVariable.currentSlot].DetachChildren();
+            //characterVariable.slotAmount[characterVariable.currentSlot].DetachChildren();
             Debug.Log("Solte");
 
             /*

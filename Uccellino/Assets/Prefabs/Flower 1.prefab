@@ -68,7 +68,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 8
-  m_Sprite: {fileID: 21300000, guid: 32b50a9904bb84ccc9e8a7dda97da7cb, type: 3}
+  m_Sprite: {fileID: 21300002, guid: 32b50a9904bb84ccc9e8a7dda97da7cb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -92,7 +92,7 @@ GameObject:
   - component: {fileID: 2938012402751577770}
   - component: {fileID: 2496241537040289836}
   m_Layer: 0
-  m_Name: Flower
+  m_Name: Flower 1
   m_TagString: Flower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

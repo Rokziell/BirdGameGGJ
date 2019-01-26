@@ -26,7 +26,7 @@ public class LeaveFlowersInHouse : MonoBehaviour
             for (int i = characterVariable.currentSlot -1; i >= 0; i--)
             {
                 Debug.Log(i);
-                Destroy(characterVariable.slotAmount[i].GetChild(0).gameObject);
+                characterVariable.slots[i].sprite = null; 
                 characterVariable.maxSpeed += characterVariable.slowSpeed;
                 characterVariable.jumpSpeed++;
             }
