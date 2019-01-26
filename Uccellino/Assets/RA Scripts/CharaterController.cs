@@ -45,4 +45,12 @@ public class CharaterController : MonoBehaviour
         transform.position += rigthMovement; // movement happens
         transform.position += upMovement; // movement happens
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Flower")
+        {
+            other.gameObject.SetActive(false);
+        }
+    }
 }
