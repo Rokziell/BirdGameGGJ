@@ -5,15 +5,20 @@ using UnityEngine;
 public class CharaterController : MonoBehaviour
 {
     [SerializeField]
-    float speed, maxSpeed, minSpeed;
-
+    float speed, maxSpeed, minSpeed, jumpSpeed, acceleration;
+    
     Vector3 forward, rigth;
+    Rigidbody rigid;
+
+    int count = 0;
 
     void Start()
     {
+        rigid = GetComponent<Rigidbody>();
         speed = 0f;
-        maxSpeed = 20f;
+        maxSpeed = 7f;
         minSpeed = 0f;
+        acceleration = 0.2f;
         forward = Camera.main.transform.forward;
         forward.y = 0;
         forward = Vector3.Normalize(forward);
@@ -23,9 +28,17 @@ public class CharaterController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
+        if (Input.GetButtonDown("Jump") && transform.position.y < 0.6)
+        {
+            rigid.AddForce(Vector3.up * jumpSpeed * 100);
+        }
+        if (Input.GetAxis("Horizontal") != 0f || Input.GetAxis("Vertical") != 0f)
         {
             Move();
+        }
+        if (Input.GetButtonUp("Horizontal") || Input.GetButtonUp("Vertical"))
+        {
+            Decelerate();
         }
     }
 
@@ -33,7 +46,7 @@ public class CharaterController : MonoBehaviour
     {
         if(speed <= maxSpeed)
         {
-            speed += 0.5f;
+            speed += acceleration;
         }
         Vector3 direction = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
         Vector3 rigthMovement = rigth * speed * Time.deltaTime * Input.GetAxis("Horizontal");
@@ -46,6 +59,16 @@ public class CharaterController : MonoBehaviour
         transform.position += upMovement; // movement happens
     }
 
+    void Decelerate()
+    {
+        while (speed >= minSpeed)
+        {
+            speed -= acceleration;
+        }
+        speed = Mathf.Clamp(speed, 0f, maxSpeed);
+    }
+
+
     private void OnTriggerStay(Collider other)
     {
         if (other.gameObject.tag == "Flower")
@@ -53,6 +76,7 @@ public class CharaterController : MonoBehaviour
             if(Input.GetKeyDown("return")){
 
                 other.gameObject.SetActive(false);
+                count++;
             }
         }
     }
