@@ -1509,8 +1509,14 @@ GameObject:
   - component: {fileID: 5286602264514513441}
   - component: {fileID: 5286602264514513630}
   - component: {fileID: 5286602264514513631}
+<<<<<<< HEAD
   - component: {fileID: 1795656015}
   - component: {fileID: 1795656014}
+=======
+  - component: {fileID: 4417826009658366680}
+  - component: {fileID: 685024551557807607}
+  - component: {fileID: 1795656015}
+>>>>>>> eaa9e1630d09707cc75f15cd5cccdca346caae61
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
