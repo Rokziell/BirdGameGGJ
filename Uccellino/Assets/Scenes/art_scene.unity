@@ -2253,13 +2253,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee9366d26ec561c47a19429121e26f79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0.5
-  maxSpeed: 0.8
-  minSpeed: 0.2
-  acceleration: 0.4
-  jumpSpeed: 7
+  speed: 4.2
+  maxSpeed: 4
+  minSpeed: 0
+  acceleration: 0.2
+  jumpSpeed: 4.2
   slowSpeed: 0.4
-  grounded: 0
+  grounded: 1
   count: 0
 --- !u!65 &1795656015
 BoxCollider:

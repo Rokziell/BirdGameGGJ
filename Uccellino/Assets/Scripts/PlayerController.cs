@@ -30,9 +30,6 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-
-        if (Input.anyKey)
-        {
             if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
             {
                 Move();
@@ -48,7 +45,6 @@ public class PlayerController : MonoBehaviour
                 grounded = false; 
                 rigid.AddForce(Vector3.up * jumpSpeed * 100);
             }
-        }
     }
 
     void Move()
@@ -59,10 +55,11 @@ public class PlayerController : MonoBehaviour
             speed += acceleration;
         }
 
-        Vector3 direction = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-        Vector3 rigthMovement = rigth * speed * Time.deltaTime * Input.GetAxis("Horizontal");
-        Vector3 upMovement = forward * speed * Time.deltaTime * Input.GetAxis("Vertical");
+        Vector3 direction = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
+        Vector3 rigthMovement = rigth * speed * Time.deltaTime * Input.GetAxisRaw("Horizontal");
+        Vector3 upMovement = forward * speed * Time.deltaTime * Input.GetAxisRaw("Vertical");
 
+        
         Vector3 heading = Vector3.Normalize(rigthMovement + upMovement);
 
         //transform.forward = heading; //rotation happens
