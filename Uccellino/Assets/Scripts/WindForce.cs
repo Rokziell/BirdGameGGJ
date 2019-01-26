@@ -28,13 +28,18 @@ public class WindForce : MonoBehaviour
 
     IEnumerator SpawnWind()
     {
+        //Aqui va la animacion del viento antes del hit
+        yield return new WaitForSeconds(0.70f);
+
         windX = Random.Range(0, 3) - 1f;
         windZ = Random.Range(0, 3) - 1f;
 
         playerRigid.AddForce(new Vector3(windX, 1.5f, windZ) * 40 * windForceNumber);
         yield return new WaitForSeconds(0.20f); 
 
-        playerRigid.AddForce(new Vector3(windX, 0, windZ) * 100 * windForceNumber);
+
+        //Aqui animacion del hit
+        playerRigid.AddForce(new Vector3(windX, 0, windZ) * 80 * windForceNumber);
         yield return new WaitForSeconds(randomTimeBeteweenWind);
 
         StartCoroutine(SpawnWind());

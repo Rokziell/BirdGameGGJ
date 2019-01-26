@@ -6,16 +6,24 @@ public class PlayerController : MonoBehaviour
 
 {
     [SerializeField]
-    float speed, maxSpeed, minSpeed, acceleration, jumpSpeed, slowSpeed;
+    float speed, minSpeed, acceleration;
+
+    public  float maxSpeed, jumpSpeed, slowSpeed;
 
     Vector3 forward, rigth;
     Rigidbody rigid;
 
+
     public int count = 0;
+    public Transform[] slotAmount;
+    public GameObject flowerPrefab;
+    internal int currentSlot;
 
     void Start()
     {
         rigid = GetComponent<Rigidbody>();
+        jumpSpeed = 3;
+        slowSpeed = 1.5f;
         speed = 0f;
         maxSpeed = 7f;
         minSpeed = 0f;
@@ -61,8 +69,7 @@ public class PlayerController : MonoBehaviour
         Vector3 upMovement = forward * speed * Time.deltaTime * Input.GetAxis("Vertical");
 
         Vector3 heading = Vector3.Normalize(rigthMovement + upMovement);
-
-        //transform.forward = heading; //rotation happens
+        
         transform.position += rigthMovement; // movement happens
         transform.position += upMovement; // movement happens
     }
@@ -85,10 +92,12 @@ public class PlayerController : MonoBehaviour
         {
             if (Input.GetKeyDown("return"))
             {
-
+                Instantiate(flowerPrefab, slotAmount[currentSlot]);
                 other.gameObject.SetActive(false);
                 count++;
                 maxSpeed -= slowSpeed;
+                jumpSpeed --;
+                currentSlot++;
             }
         }
     }
