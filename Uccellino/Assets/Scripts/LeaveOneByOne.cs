@@ -19,20 +19,7 @@ public class LeaveOneByOne : MonoBehaviour
         if (Input.GetAxis("Fire2") != 0){
             characterVariable.slotAmount[characterVariable.currentSlot].DetachChildren();
             Debug.Log("Solte");
-
-            /*
-            Debug.Log(characterVariable.count);
-            for (int i = characterVariable.currentSlot - 1; i >= 0; i--)
-            {
-                Debug.Log(i);
-
-                Destroy(characterVariable.slotAmount[i].GetChild(0).gameObject);
-                characterVariable.maxSpeed += characterVariable.slowSpeed;
-                characterVariable.jumpSpeed++;
-            }*/
             characterVariable.currentSlot = 0;
-            characterVariable.count = 0;
-            Debug.Log(characterVariable.count);
         }            
     }
 

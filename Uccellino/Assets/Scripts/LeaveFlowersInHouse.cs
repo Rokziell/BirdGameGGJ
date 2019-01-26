@@ -22,7 +22,7 @@ public class LeaveFlowersInHouse : MonoBehaviour
     }
 
 
-    delegate void GameOVer()
+    //delegate void GameOVer();
 
     void OnTriggerEnter(Collider other)
     {
