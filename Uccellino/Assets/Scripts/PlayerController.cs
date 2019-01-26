@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     public float speed, maxSpeed, minSpeed, acceleration, jumpSpeed, slowSpeed;
 
     public bool grounded = true; 
+    public bool picoteando = false; 
 
     Vector3 forward, rigth;
     Rigidbody rigid;
@@ -45,11 +46,16 @@ public class PlayerController : MonoBehaviour
                 grounded = false; 
                 rigid.AddForce(Vector3.up * jumpSpeed * 100);
             }
+
+            if(Input.GetButtonDown("Fire1") && grounded){
+                picoteando = true; 
+                Invoke("FinishPico", .75f);
+            }
     }
 
     void Move()
     {
-
+        if(picoteando) return; 
         if (speed <= maxSpeed)
         {
             speed += acceleration;
@@ -95,5 +101,9 @@ public class PlayerController : MonoBehaviour
         if(other.gameObject.CompareTag("floor") && transform.position.y < 0.5){
             grounded = true; 
         }
+    }
+
+    void FinishPico(){
+        picoteando = false;
     }
 }

@@ -47,6 +47,11 @@ public class PlayerAnimationController : MonoBehaviour
             }
         }
 
+        //pico animation
+        if(playerController.grounded && Input.GetButtonDown("Fire1")){
+            animator.SetTrigger("pico"); 
+        }
+
         wasGrounded = playerController.grounded; 
     }
 }
