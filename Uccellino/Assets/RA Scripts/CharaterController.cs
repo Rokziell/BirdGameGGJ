@@ -23,7 +23,7 @@ public class CharaterController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.anyKey)
+        if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
         {
             Move();
         }
@@ -46,11 +46,15 @@ public class CharaterController : MonoBehaviour
         transform.position += upMovement; // movement happens
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         if (other.gameObject.tag == "Flower")
         {
-            other.gameObject.SetActive(false);
+            if(Input.GetKeyDown("return")){
+
+                other.gameObject.SetActive(false);
+            }
         }
     }
+
 }
