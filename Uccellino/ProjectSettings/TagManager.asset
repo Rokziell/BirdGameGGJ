@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Flower
   - House
+  - Seed
   layers:
   - Default
   - TransparentFX
