@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField]
     float speed, minSpeed, acceleration;
+    Renderer renderSeed;
 
     public  float maxSpeed, jumpSpeed, slowSpeed;
 
@@ -21,6 +22,8 @@ public class PlayerController : MonoBehaviour
     public Transform[] slotAmount;
     public GameObject flowerPrefab;
     internal int currentSlot;
+
+    internal  Transform floorChild;
 
     void Start()
     {
@@ -59,6 +62,11 @@ public class PlayerController : MonoBehaviour
                 picoteando = true;
                 Invoke("FinishPico", .75f);
             }
+
+            if (Input.GetButtonDown("Fire2"))
+            {
+            LeaveOnePerTime();
+            }
     }
 
     void Move()
@@ -96,7 +104,7 @@ public class PlayerController : MonoBehaviour
     {
         if (other.gameObject.tag == "Flower")
         {
-            if (Input.GetKeyDown("return"))
+            if (Input.GetButtonDown("Submit"))
             {
                 Instantiate(flowerPrefab, slotAmount[currentSlot]);
                 other.gameObject.SetActive(false);
@@ -104,6 +112,20 @@ public class PlayerController : MonoBehaviour
                 maxSpeed -= slowSpeed;
                 jumpSpeed --;
                 currentSlot++;
+            }
+        }
+
+        if(other.gameObject.tag == "Seed")
+        {
+            if (Input.GetButtonDown("Submit"))
+            {
+                Debug.Log("Colisione con seed");
+                renderSeed = other.gameObject.GetComponent<Renderer>();
+                renderSeed.enabled = true;
+                while (other.transform.position.y <= 0.5)
+                {
+                    other.transform.Translate(Vector3.up * 0.05f);
+                }
             }
         }
 
@@ -115,4 +137,15 @@ public class PlayerController : MonoBehaviour
     void FinishPico(){
         picoteando = false;
     }
+
+    void LeaveOnePerTime()
+    {
+        floorChild = slotAmount[currentSlot - 1].GetChild(0).parent = null;
+        count --;
+        maxSpeed += slowSpeed;
+        jumpSpeed ++;
+        currentSlot --;
+        Debug.Log("SAco");
+    }
+
 }
