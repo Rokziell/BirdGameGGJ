@@ -2,17 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MVCharacterController : MonoBehaviour
-{
-   // GameObject target;
+public class PlayerController : MonoBehaviour
 
+{
     [SerializeField]
-    float speed, maxSpeed, minSpeed, acceleration;
+    float speed, maxSpeed, minSpeed, acceleration, jumpSpeed, slowSpeed;
 
     Vector3 forward, rigth;
+    Rigidbody rigid;
+
+    public int count = 0;
 
     void Start()
     {
+        rigid = GetComponent<Rigidbody>();
         speed = 0f;
         maxSpeed = 7f;
         minSpeed = 0f;
@@ -35,7 +38,12 @@ public class MVCharacterController : MonoBehaviour
 
             if (Input.GetButtonUp("Horizontal") || Input.GetButtonUp("Vertical"))
             {
-               Decelerate();
+                Decelerate();
+            }
+
+            if (Input.GetButtonDown("Jump") && transform.position.y < 0.6)
+            {
+                rigid.AddForce(Vector3.up * jumpSpeed * 100);
             }
         }
     }
@@ -70,5 +78,18 @@ public class MVCharacterController : MonoBehaviour
             }
         }
         speed = Mathf.Clamp(speed, 0f, maxSpeed);
+    }
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.tag == "Flower")
+        {
+            if (Input.GetKeyDown("return"))
+            {
+
+                other.gameObject.SetActive(false);
+                count++;
+                maxSpeed -= slowSpeed;
+            }
+        }
     }
 }
