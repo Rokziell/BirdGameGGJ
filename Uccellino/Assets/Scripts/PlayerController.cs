@@ -6,7 +6,9 @@ public class PlayerController : MonoBehaviour
 
 {
     [SerializeField]
-    float speed, maxSpeed, minSpeed, acceleration, jumpSpeed, slowSpeed;
+    public float speed, maxSpeed, minSpeed, acceleration, jumpSpeed, slowSpeed;
+
+    public bool grounded = true; 
 
     Vector3 forward, rigth;
     Rigidbody rigid;
@@ -43,6 +45,7 @@ public class PlayerController : MonoBehaviour
 
             if (Input.GetButtonDown("Jump") && transform.position.y < 0.6)
             {
+                grounded = false; 
                 rigid.AddForce(Vector3.up * jumpSpeed * 100);
             }
         }
@@ -90,6 +93,10 @@ public class PlayerController : MonoBehaviour
                 count++;
                 maxSpeed -= slowSpeed;
             }
+        }
+
+        if(other.gameObject.CompareTag("floor") && transform.position.y < 0.5){
+            grounded = true; 
         }
     }
 }
