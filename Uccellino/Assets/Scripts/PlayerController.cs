@@ -127,6 +127,7 @@ public class PlayerController : MonoBehaviour
                 {
                     other.transform.Translate(Vector3.up * 0.05f);
                 }
+                other.gameObject.tag = "Flower";
             }
         }
 
