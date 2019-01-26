@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour
 
 {
     [SerializeField]
+    Renderer renderSeed;
     float speed, minSpeed, acceleration;
     Renderer renderSeed;
 
@@ -102,6 +103,7 @@ public class PlayerController : MonoBehaviour
     }
     private void OnTriggerStay(Collider other)
     {
+ 
         if (other.gameObject.tag == "Flower")
         {
             if (Input.GetButtonDown("Submit"))
@@ -112,6 +114,19 @@ public class PlayerController : MonoBehaviour
                 maxSpeed -= slowSpeed;
                 jumpSpeed --;
                 currentSlot++;
+            }
+        }
+        if (other.gameObject.tag == "Seed")
+        {
+            if (Input.GetKeyDown("return"))
+            {
+                renderSeed = other.gameObject.GetComponent<Renderer>();
+                renderSeed.enabled = true;
+                while (other.transform.position.y <= 0.5)
+                {
+                    other.transform.Translate(Vector3.up * 0.05f);
+                }
+
             }
         }
 
