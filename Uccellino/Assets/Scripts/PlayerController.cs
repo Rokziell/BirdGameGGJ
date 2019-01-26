@@ -6,17 +6,28 @@ public class PlayerController : MonoBehaviour
 
 {
     [SerializeField]
-    float speed, maxSpeed, minSpeed, acceleration, jumpSpeed, slowSpeed;
     Renderer renderSeed;
+    float speed, minSpeed, acceleration;
+
+    public  float maxSpeed, jumpSpeed, slowSpeed;
+
+    public bool grounded = true;
+    public bool picoteando = false;
 
     Vector3 forward, rigth;
     Rigidbody rigid;
 
+
     public int count = 0;
+    public Transform[] slotAmount;
+    public GameObject flowerPrefab;
+    internal int currentSlot;
 
     void Start()
     {
         rigid = GetComponent<Rigidbody>();
+        jumpSpeed = 3;
+        slowSpeed = 1.5f;
         speed = 0f;
         maxSpeed = 7f;
         minSpeed = 0f;
@@ -29,9 +40,6 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-
-        if (Input.anyKey)
-        {
             if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
             {
                 Move();
@@ -44,26 +52,31 @@ public class PlayerController : MonoBehaviour
 
             if (Input.GetButtonDown("Jump") && transform.position.y < 0.6)
             {
+                grounded = false;
                 rigid.AddForce(Vector3.up * jumpSpeed * 100);
             }
-        }
+
+            if(Input.GetButtonDown("Fire1") && grounded){
+                picoteando = true;
+                Invoke("FinishPico", .75f);
+            }
     }
 
     void Move()
     {
-
+        if(picoteando) return;
         if (speed <= maxSpeed)
         {
             speed += acceleration;
         }
 
-        Vector3 direction = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-        Vector3 rigthMovement = rigth * speed * Time.deltaTime * Input.GetAxis("Horizontal");
-        Vector3 upMovement = forward * speed * Time.deltaTime * Input.GetAxis("Vertical");
+        Vector3 direction = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
+        Vector3 rigthMovement = rigth * speed * Time.deltaTime * Input.GetAxisRaw("Horizontal");
+        Vector3 upMovement = forward * speed * Time.deltaTime * Input.GetAxisRaw("Vertical");
+
 
         Vector3 heading = Vector3.Normalize(rigthMovement + upMovement);
 
-        //transform.forward = heading; //rotation happens
         transform.position += rigthMovement; // movement happens
         transform.position += upMovement; // movement happens
     }
@@ -87,10 +100,12 @@ public class PlayerController : MonoBehaviour
         {
             if (Input.GetKeyDown("return"))
             {
-
+                Instantiate(flowerPrefab, slotAmount[currentSlot]);
                 other.gameObject.SetActive(false);
                 count++;
                 maxSpeed -= slowSpeed;
+                jumpSpeed --;
+                currentSlot++;
             }
         }
         if (other.gameObject.tag == "Seed")
@@ -106,5 +121,13 @@ public class PlayerController : MonoBehaviour
 
             }
         }
+
+        if(other.gameObject.CompareTag("floor") && transform.position.y < 0.5){
+            grounded = true;
+        }
+    }
+
+    void FinishPico(){
+        picoteando = false;
     }
 }
