@@ -6,7 +6,6 @@ public class PlayerController : MonoBehaviour
 
 {
     [SerializeField]
-    Renderer renderSeed;
     float speed, minSpeed, acceleration;
     Renderer renderSeed;
 
@@ -114,19 +113,6 @@ public class PlayerController : MonoBehaviour
                 maxSpeed -= slowSpeed;
                 jumpSpeed --;
                 currentSlot++;
-            }
-        }
-        if (other.gameObject.tag == "Seed")
-        {
-            if (Input.GetKeyDown("return"))
-            {
-                renderSeed = other.gameObject.GetComponent<Renderer>();
-                renderSeed.enabled = true;
-                while (other.transform.position.y <= 0.5)
-                {
-                    other.transform.Translate(Vector3.up * 0.05f);
-                }
-
             }
         }
 
