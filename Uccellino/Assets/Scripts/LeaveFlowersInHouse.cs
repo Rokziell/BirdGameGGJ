@@ -5,6 +5,9 @@ using UnityEngine;
 public class LeaveFlowersInHouse : MonoBehaviour
 {
     PlayerController characterVariable;
+    public int maxFlowersInHouse;
+    private int flowersInTheHouse;
+
 
     // Start is called before the first frame update
     void Start()
@@ -18,21 +21,25 @@ public class LeaveFlowersInHouse : MonoBehaviour
         
     }
 
+
+    delegate void GameOVer()
+
     void OnTriggerEnter(Collider other)
     {
         if(other.tag == "House")
         {
-            Debug.Log(characterVariable.count);
             for (int i = characterVariable.currentSlot -1; i >= 0; i--)
             {
-                Debug.Log(i);
                 Destroy(characterVariable.slotAmount[i].GetChild(0).gameObject);
                 characterVariable.maxSpeed += characterVariable.slowSpeed;
                 characterVariable.jumpSpeed++;
+                flowersInTheHouse++;
             }
             characterVariable.currentSlot = 0;
-            characterVariable.count = 0;
-            Debug.Log(characterVariable.count);
+            if(flowersInTheHouse >= maxFlowersInHouse)
+            {
+                //GAME OVER
+            }
         }
     }
 }

@@ -17,8 +17,6 @@ public class PlayerController : MonoBehaviour
     Vector3 forward, rigth;
     Rigidbody rigid;
 
-
-    public int count = 0;
     public Transform[] slotAmount;
     public GameObject flowerPrefab;
     internal int currentSlot;
@@ -109,7 +107,6 @@ public class PlayerController : MonoBehaviour
             {
                 Instantiate(flowerPrefab, slotAmount[currentSlot]);
                 other.gameObject.SetActive(false);
-                count++;
                 maxSpeed -= slowSpeed;
                 jumpSpeed --;
                 currentSlot++;
@@ -143,7 +140,6 @@ public class PlayerController : MonoBehaviour
     void LeaveOnePerTime()
     {
         floorChild = slotAmount[currentSlot - 1].GetChild(0).parent = null;
-        count --;
         maxSpeed += slowSpeed;
         jumpSpeed ++;
         currentSlot --;
