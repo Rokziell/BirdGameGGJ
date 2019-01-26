@@ -110,7 +110,6 @@ public class PlayerController : MonoBehaviour
                 slots[currentSlot].sprite = other.GetComponentInChildren<SpriteRenderer>().sprite; 
                 
                 other.gameObject.SetActive(false);
-                count++;
                 maxSpeed -= slowSpeed;
                 jumpSpeed --;
                 currentSlot++;
