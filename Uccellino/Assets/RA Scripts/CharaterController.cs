@@ -5,7 +5,7 @@ using UnityEngine;
 public class CharaterController : MonoBehaviour
 {
     [SerializeField]
-    float speed, maxSpeed, minSpeed, jumpSpeed, acceleration;
+    float speed, maxSpeed, minSpeed, jumpSpeed, acceleration, slowSpeed;
     
     Vector3 forward, rigth;
     Rigidbody rigid;
@@ -77,6 +77,7 @@ public class CharaterController : MonoBehaviour
 
                 other.gameObject.SetActive(false);
                 count++;
+                maxSpeed -= slowSpeed;
             }
         }
     }
