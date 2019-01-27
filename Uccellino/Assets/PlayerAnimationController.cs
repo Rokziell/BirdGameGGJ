@@ -7,6 +7,8 @@ public class PlayerAnimationController : MonoBehaviour
 
     private Animator animator;
     private PlayerController playerController; 
+    public ParticleSystem rparticles;
+    public ParticleSystem pico_particles;
     private bool wasGrounded = false; 
     private bool firstTimeFix = false; 
     // Start is called before the first frame update
@@ -19,12 +21,23 @@ public class PlayerAnimationController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(playerController.CINEMATIC) return;
         //main animations handeling
         if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
         {
             animator.SetBool("moving", true); 
+            if(playerController.grounded && !rparticles.isPlaying) {
+                rparticles.Play();
+                Debug.Log("particles!");
+            }
+            else if(!playerController.grounded){
+                rparticles.Stop();
+                Debug.Log("No Particles!");
+            }
+
         }else{
             animator.SetBool("moving", false);
+            rparticles.Stop(); 
         }
 
         //fliping the axis
@@ -50,8 +63,17 @@ public class PlayerAnimationController : MonoBehaviour
         //pico animation
         if(playerController.grounded && Input.GetButtonDown("Fire1")){
             animator.SetTrigger("pico"); 
+            //if(!pico_particles.isPlaying){ pico_particles.Play(); } 
+           
         }
 
         wasGrounded = playerController.grounded; 
     }
+
+    public void picoParticlesFire(){
+     pico_particles.Play();
+    }
+    
 }
+
+

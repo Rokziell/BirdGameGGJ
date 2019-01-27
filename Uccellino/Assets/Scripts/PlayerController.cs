@@ -5,6 +5,9 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 
 {
+
+    public bool CINEMATIC = true; 
+
     [SerializeField]
     float speed, minSpeed, acceleration;
     Renderer renderSeed;
@@ -24,6 +27,7 @@ public class PlayerController : MonoBehaviour
     internal int currentSlot;
 
     internal  Transform floorChild;
+    internal Collider targetFlower = null;
 
     void Start()
     {
@@ -42,7 +46,9 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-            if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
+        if(CINEMATIC)return;
+
+        if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
             {
                 Move();
             }
@@ -107,12 +113,10 @@ public class PlayerController : MonoBehaviour
         {
             if (Input.GetButtonDown("Fire1"))
             {
-                slots[currentSlot].sprite = other.GetComponentInChildren<SpriteRenderer>().sprite; 
-                
-                other.gameObject.SetActive(false);
-                maxSpeed -= slowSpeed;
-                jumpSpeed --;
-                currentSlot++;
+                if(targetFlower==null){
+                    targetFlower = other; 
+                    Invoke("TakeFlower", .5f); 
+                }
             }
         }
 
@@ -148,6 +152,17 @@ public class PlayerController : MonoBehaviour
         jumpSpeed ++;
         currentSlot --;
         Debug.Log("SAco");
+    }
+
+    void TakeFlower(){
+        slots[currentSlot].sprite = targetFlower.GetComponentInChildren<SpriteRenderer>().sprite; 
+                
+                targetFlower.gameObject.SetActive(false);
+                maxSpeed -= slowSpeed;
+                jumpSpeed --;
+                currentSlot++;
+            
+            targetFlower = null; 
     }
 
 }
