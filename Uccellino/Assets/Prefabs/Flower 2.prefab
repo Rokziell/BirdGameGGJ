@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1828962924}
   - component: {fileID: 1828962925}
+  - component: {fileID: 6298079319375117669}
+  - component: {fileID: 1126147828250168201}
   m_Layer: 0
   m_Name: flor
   m_TagString: Untagged
@@ -79,6 +81,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &6298079319375117669
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1828962923}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 826c6e904f93210419ea7874d05305b0, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1126147828250168201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1828962923}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd9d17ceb7987e84598b3473bc79909c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6471465088471239146
 GameObject:
   m_ObjectHideFlags: 0
