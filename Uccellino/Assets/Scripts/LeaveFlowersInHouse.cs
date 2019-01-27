@@ -37,6 +37,7 @@ public class LeaveFlowersInHouse : MonoBehaviour
                 characterVariable.jumpSpeed++;
                 flowersInTheHouse++;
             }
+            
             characterVariable.currentSlot = 0;
             if (flowersForNextLevel >= maxFlowersInHouse)
             {
@@ -52,7 +53,6 @@ public class LeaveFlowersInHouse : MonoBehaviour
                     homeChanger.currentHomeSprite++;
                     homeChanger.spriteRenderer.sprite = homeChanger.homeSprites[homeChanger.currentHomeSprite];
                     flowersForNextLevel += rangeToNextLevel;
-
                 }
             }
         }
