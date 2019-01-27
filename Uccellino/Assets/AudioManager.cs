@@ -36,6 +36,7 @@ public class AudioManager : MonoBehaviour
 
     void Start()
     {
+        LeaveFlowersInHouse.gameOverVariable += StopTheMusic;
         Play("world");
     }
 
@@ -48,6 +49,10 @@ public class AudioManager : MonoBehaviour
             return;
         }
             s.source.Play();
+    }
+
+    public void StopTheMusic(){
+        Stop("walk");
     }
 
     public void Stop (string name)
