@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
 
     public bool grounded = true;
     public bool picoteando = false;
+    public bool isReadyToPick = false;
 
     Vector3 forward, rigth;
     Rigidbody rigid;
