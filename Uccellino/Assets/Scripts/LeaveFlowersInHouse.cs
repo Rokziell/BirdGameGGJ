@@ -5,14 +5,19 @@ using UnityEngine;
 public class LeaveFlowersInHouse : MonoBehaviour
 {
     PlayerController characterVariable;
+    public HomeSpriteChanger homeChanger;
     public int maxFlowersInHouse;
-    private int flowersInTheHouse;
-
+    private int flowersInTheHouse, flowersForNextLevel, rangeToNextLevel;
+    private float timeDelay;
+    
 
     // Start is called before the first frame update
     void Start()
     {
         characterVariable = GetComponent<PlayerController>();
+        timeDelay = 0.5f;
+        flowersForNextLevel = 2;
+        rangeToNextLevel = 2;
     }
 
     // Update is called once per frame
@@ -36,10 +41,22 @@ public class LeaveFlowersInHouse : MonoBehaviour
                 characterVariable.jumpSpeed++;
                 flowersInTheHouse++;
             }
+            
             characterVariable.currentSlot = 0;
-            if(flowersInTheHouse >= maxFlowersInHouse)
+            if(flowersForNextLevel >= maxFlowersInHouse)
             {
-                //GAME OVER
+                homeChanger.currentHomeSprite++;
+                homeChanger.spriteRenderer.sprite = homeChanger.homeSprites[homeChanger.currentHomeSprite];
+                Debug.Log("GAME OVER!!!!"); 
+            }
+            else
+            {
+                if (flowersInTheHouse >= flowersForNextLevel)
+                {
+                    homeChanger.currentHomeSprite++;
+                    homeChanger.spriteRenderer.sprite = homeChanger.homeSprites[homeChanger.currentHomeSprite];
+                    flowersForNextLevel += rangeToNextLevel;
+                }
             }
         }
     }
