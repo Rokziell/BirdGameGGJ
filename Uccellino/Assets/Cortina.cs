@@ -41,6 +41,10 @@ public class Cortina : MonoBehaviour {
     // Update is called once per frame
     void Update () {
 
+        if(Input.GetKeyDown("r")){
+            SceneManager.LoadScene(1); 
+        }
+
         if (on)
         {
             currentPos += speed * Time.deltaTime; 
