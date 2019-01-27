@@ -22,7 +22,8 @@ public class PlayerController : MonoBehaviour
     public int count = 0;
     public SpriteRenderer[] slots;
     public GameObject flowerPrefab;
-    internal int currentSlot;
+    public GameObject[] flowerArray;
+    internal int currentSlot, randomPickFlower;
 
     internal  Transform floorChild;
 
@@ -102,11 +103,10 @@ public class PlayerController : MonoBehaviour
         speed = Mathf.Clamp(speed, 0f, maxSpeed);
     }
     private void OnTriggerStay(Collider other)
-    {
- 
+    { 
         if (other.gameObject.tag == "Flower")
         {
-            if (Input.GetButtonDown("Fire1"))
+            if (Input.GetButtonDown("Fire1") && (isReadyToPick))
             {
                 slots[currentSlot].sprite = other.GetComponentInChildren<SpriteRenderer>().sprite;
 
@@ -120,16 +120,22 @@ public class PlayerController : MonoBehaviour
 
         if(other.gameObject.tag == "Seed")
         {
+            IsFlower isFlower = other.GetComponent<IsFlower>();
             if (Input.GetButtonDown("Fire1"))
             {
-                Debug.Log("Colisione con seed");
-                renderSeed = other.gameObject.GetComponent<Renderer>();
-                renderSeed.enabled = true;
-                while (other.transform.position.y <= 0.5)
+                if (isFlower.flower)
                 {
-                    other.transform.Translate(Vector3.up * 0.05f);
+                    randomPickFlower = Random.Range(0, 4);
+                    Debug.Log(randomPickFlower);
+                    var flowerInGround = Instantiate(flowerArray[randomPickFlower], transform.position + new Vector3(0f, 0.0f, 0), Quaternion.identity);
+                    while (flowerInGround.transform.position.y <= 0.5)
+                    {
+                        flowerInGround.transform.Translate(Vector3.up * 0.05f);
+                    }
+                    flowerInGround.transform.parent = null;
+                    isReadyToPick = false;
                 }
-                other.gameObject.tag = "Flower";
+                other.gameObject.SetActive(false);
             }
         }
 
@@ -140,10 +146,17 @@ public class PlayerController : MonoBehaviour
         if(other.gameObject.CompareTag("Water")) {
             for (int i = currentSlot - 1; i >= 0; i--)
             {
-                Debug.Log(i);
+                var flowerInGround = Instantiate(slots[i], transform);
+                // flowerInGround.gameObject.transform.localScale = new Vector3(1, 1, 1);
+
+                flowerInGround.gameObject.SetActive(true);
+                flowerInGround.gameObject.transform.parent = null;
+
+
                 slots[i].sprite = null;
                 maxSpeed += slowSpeed;
                 jumpSpeed++;
+
             }
             currentSlot = 0;
         }
@@ -155,18 +168,15 @@ public class PlayerController : MonoBehaviour
 
     void LeaveOnePerTime()
     {
-        if (slots[currentSlot] != null)
-        {
-            var flowerInGround = Instantiate(flowerPrefab, transform.position + new Vector3(0f, 0.5f, 0), Quaternion.identity);
-            flowerInGround.GetComponentInChildren<SpriteRenderer>().sprite = slots[currentSlot - 1].sprite;
-            flowerInGround.transform.parent = null;
-            slots[currentSlot - 1].sprite = null;
-            count--;
-            maxSpeed += slowSpeed;
-            jumpSpeed++;
-            currentSlot--;
-            Debug.Log("SAco");
-
-        }
+        var flowerInGround = Instantiate(flowerPrefab, transform.position + new Vector3(0f, 0.5f, 0), Quaternion.identity);
+        flowerInGround.GetComponentInChildren<SpriteRenderer>().sprite = slots[currentSlot - 1].sprite;
+        flowerInGround.transform.parent = null;
+        slots[currentSlot - 1].sprite = null;
+        count --;
+        maxSpeed += slowSpeed;
+        jumpSpeed ++;
+        currentSlot --;
+        Debug.Log("SAco");
     }
+
 }

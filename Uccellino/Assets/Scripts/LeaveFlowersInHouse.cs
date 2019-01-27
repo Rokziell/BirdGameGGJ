@@ -9,6 +9,10 @@ public class LeaveFlowersInHouse : MonoBehaviour
     public int maxFlowersInHouse;
     private int flowersInTheHouse, flowersForNextLevel, rangeToNextLevel;
     private float timeDelay;
+<<<<<<< HEAD
+    
+=======
+>>>>>>> 87915df133d9ff462116241db1aae6ee1557a845
 
     // Start is called before the first frame update
     void Start()
@@ -37,7 +41,18 @@ public class LeaveFlowersInHouse : MonoBehaviour
                 characterVariable.jumpSpeed++;
                 flowersInTheHouse++;
             }
+            
             characterVariable.currentSlot = 0;
+<<<<<<< HEAD
+            if(flowersForNextLevel >= maxFlowersInHouse)
+            {
+                homeChanger.currentHomeSprite++;
+                homeChanger.spriteRenderer.sprite = homeChanger.homeSprites[homeChanger.currentHomeSprite];
+                Debug.Log("GAME OVER!!!!"); 
+            }
+            else
+            {
+=======
             if (flowersForNextLevel >= maxFlowersInHouse)
             {
                 homeChanger.currentHomeSprite++;
@@ -47,12 +62,16 @@ public class LeaveFlowersInHouse : MonoBehaviour
             }
             else
             {
+>>>>>>> 87915df133d9ff462116241db1aae6ee1557a845
                 if (flowersInTheHouse >= flowersForNextLevel)
                 {
                     homeChanger.currentHomeSprite++;
                     homeChanger.spriteRenderer.sprite = homeChanger.homeSprites[homeChanger.currentHomeSprite];
                     flowersForNextLevel += rangeToNextLevel;
+<<<<<<< HEAD
+=======
 
+>>>>>>> 87915df133d9ff462116241db1aae6ee1557a845
                 }
             }
         }
