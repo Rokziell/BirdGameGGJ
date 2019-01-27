@@ -1658,7 +1658,7 @@ PrefabInstance:
       objectReference: {fileID: 618728154}
     - target: {fileID: 264790082, guid: 427dbfa39e9e64ad88b902e8a51222aa, type: 3}
       propertyPath: maxFlowersInHouse
-      value: 2
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 264790082, guid: 427dbfa39e9e64ad88b902e8a51222aa, type: 3}
       propertyPath: homeChanger
@@ -5393,7 +5393,7 @@ MonoBehaviour:
   isMenu: 1
   on: 0
   speed: 0.54
-  currentPos: 0.33361268
+  currentPos: 0.7536276
 --- !u!1 &228121799
 GameObject:
   m_ObjectHideFlags: 0
