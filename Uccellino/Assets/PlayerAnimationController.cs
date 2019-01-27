@@ -9,6 +9,7 @@ public class PlayerAnimationController : MonoBehaviour
     private PlayerController playerController; 
     public ParticleSystem rparticles;
     public ParticleSystem pico_particles;
+    public ParticleSystem water_Particles;
     private bool wasGrounded = false; 
     private bool firstTimeFix = false; 
     // Start is called before the first frame update
@@ -28,11 +29,9 @@ public class PlayerAnimationController : MonoBehaviour
             animator.SetBool("moving", true); 
             if(playerController.grounded && !rparticles.isPlaying) {
                 rparticles.Play();
-                Debug.Log("particles!");
             }
             else if(!playerController.grounded){
                 rparticles.Stop();
-                Debug.Log("No Particles!");
             }
 
         }else{
@@ -51,12 +50,12 @@ public class PlayerAnimationController : MonoBehaviour
         
         //fall animation 
         if(!wasGrounded && playerController.grounded){
-            Debug.Log("fall!"); 
+           
             animator.SetTrigger("grounded"); 
             if(!firstTimeFix){
                 animator.SetBool("grounded", false);
                 firstTimeFix = true; 
-                Debug.Log("fix!"); 
+              
             }
         }
 
@@ -73,7 +72,12 @@ public class PlayerAnimationController : MonoBehaviour
     public void picoParticlesFire(){
      pico_particles.Play();
     }
-    
+
+    public void WaterParticlesFire(){
+        if(!water_Particles.isPlaying){
+            water_Particles.Play(); 
+        }
+    }
 }
 
 

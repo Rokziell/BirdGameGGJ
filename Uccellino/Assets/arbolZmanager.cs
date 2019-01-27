@@ -20,7 +20,7 @@ public class arbolZmanager : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {if(col){
+    {if(col && sprite){
      Vector3 colliderCenter = transform.TransformPoint(col.center);
         if(colliderCenter.z < player.position.z){
             sprite.sortingOrder = 1000;
@@ -28,8 +28,8 @@ public class arbolZmanager : MonoBehaviour
             sprite.sortingOrder = 7;
         }
         if(debug){
-            Debug.Log("sorting:");
-            Debug.Log(sprite.sortingOrder); 
+         //   Debug.Log("sorting:");
+         //   Debug.Log(sprite.sortingOrder); 
         }
     }
 

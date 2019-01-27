@@ -11,7 +11,7 @@ public class WindForce : MonoBehaviour
 
     private float randomTimeBeteweenWind, windX, windZ;
     public float minTime, maxTime, windForceNumber;
-    public int minWindForce, maxWindForce;
+    public float minWindForce, maxWindForce;
 
     private bool isReadyToStart, isPreparing, isHitting;
 

@@ -8,13 +8,13 @@ public class LeaveFlowersInHouse : MonoBehaviour
     public HomeSpriteChanger homeChanger;
     public int maxFlowersInHouse;
     private int flowersInTheHouse, flowersForNextLevel, rangeToNextLevel;
-    private float timeDelay;
+    public float timeDelay;
 
     // Start is called before the first frame update
     void Start()
     {
         characterVariable = GetComponent<PlayerController>();
-        timeDelay = 0.5f;
+        timeDelay = 1.5f;
         flowersForNextLevel = 2;
         rangeToNextLevel = 2;
     }
@@ -39,25 +39,25 @@ public class LeaveFlowersInHouse : MonoBehaviour
             }
             
             characterVariable.currentSlot = 0;
-            if (flowersForNextLevel >= maxFlowersInHouse)
+            if (flowersInTheHouse >= maxFlowersInHouse)
             {
                 homeChanger.currentHomeSprite++;
                 homeChanger.spriteRenderer.sprite = homeChanger.homeSprites[homeChanger.currentHomeSprite];
                 Debug.Log("GAME OVER!!!!");
                 gameOverVariable();
             }
-            else
-            {
-                if (flowersInTheHouse >= flowersForNextLevel)
-                {
-                    homeChanger.currentHomeSprite++;
-                    homeChanger.spriteRenderer.sprite = homeChanger.homeSprites[homeChanger.currentHomeSprite];
-                    flowersForNextLevel += rangeToNextLevel;
-                }
-            }
+            CheckForLevelUpgrade();     
         }
     }
-
+    void CheckForLevelUpgrade(){
+        if(flowersInTheHouse >= flowersForNextLevel)
+        {
+            homeChanger.currentHomeSprite++;
+            homeChanger.spriteRenderer.sprite = homeChanger.homeSprites[homeChanger.currentHomeSprite];
+            flowersForNextLevel += rangeToNextLevel;
+            Invoke("CheckForLevelUpgrade", timeDelay); 
+        }
+    }
     delegate void GameOver();
     GameOver gameOverVariable;
 }

@@ -14,7 +14,7 @@ public class lightHouse : MonoBehaviour
 
  private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("TRIGGER ENTER!"); 
+      
         if(animator){
             animator.SetTrigger("show");
         }
@@ -22,7 +22,7 @@ public class lightHouse : MonoBehaviour
 
      private void OnTriggerExit(Collider other)
     {
-        Debug.Log("TRIGGER OUT!"); 
+      
        if(animator){
            animator.SetTrigger("hide"); 
        }

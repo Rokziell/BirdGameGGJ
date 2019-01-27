@@ -115,20 +115,10 @@ public class PlayerController : MonoBehaviour
         {
             if (Input.GetButtonDown("Fire1") && (isReadyToPick))
             {
-<<<<<<< HEAD
                 if(targetFlower==null){
                     targetFlower = other; 
                     Invoke("TakeFlower", .5f); 
                 }
-=======
-                slots[currentSlot].sprite = other.GetComponentInChildren<SpriteRenderer>().sprite;
-
-                other.gameObject.SetActive(false);
-                maxSpeed -= slowSpeed;
-                jumpSpeed--;
-                currentSlot++;
-              
->>>>>>> f25d086159cebd140817a002d779e888a7dc3392
             }
         }
 
@@ -160,28 +150,14 @@ public class PlayerController : MonoBehaviour
         if(other.gameObject.CompareTag("Water")) {
             inWater = true;
 
+            var playerAnimationController = GetComponentInChildren<PlayerAnimationController>(); 
+            playerAnimationController.WaterParticlesFire();
+
             for (int i = currentSlot - 1; i >= 0; i--)
             {
-
-                var flowerInGround = Instantiate(flowerPrefab, transform.position + new Vector3(0f, 0.5f, 0), Quaternion.identity);
-                flowerInGround.GetComponentInChildren<SpriteRenderer>().sprite = slots[currentSlot - 1].sprite;
-
-                if (i == 0)
-                {
-                    flowerInGround.transform.parent = null;
-                }
                 slots[i].sprite = null;
-
-
-                // var flowerInGround = Instantiate(slots[i], transform);
-                // flowerInGround.gameObject.transform.localScale = new Vector3(1, 1, 1);
-
-                // flowerInGround.gameObject.SetActive(true);
-                // flowerInGround.gameObject.transform.parent = null;
-
                 maxSpeed += slowSpeed;
                 jumpSpeed++;
-
             }
             currentSlot = 0;
         }
@@ -200,15 +176,18 @@ public class PlayerController : MonoBehaviour
 
     void LeaveOnePerTime()
     {
-        var flowerInGround = Instantiate(flowerPrefab, transform.position + new Vector3(0f, 0.5f, 0), Quaternion.identity);
-        flowerInGround.GetComponentInChildren<SpriteRenderer>().sprite = slots[currentSlot - 1].sprite;
-        flowerInGround.transform.parent = null;
-        slots[currentSlot - 1].sprite = null;
-        count --;
-        maxSpeed += slowSpeed;
-        jumpSpeed ++;
-        currentSlot --;
-        Debug.Log("SAco");
+        if(currentSlot>0){
+            var tr = GetComponentInChildren<PlayerAnimationController>().transform;
+            var flowerInGround = Instantiate(flowerPrefab, transform.position + new Vector3(tr.localScale.x > 0 ? 1:-1 * 1f, 0.5f, 0), Quaternion.identity);
+            flowerInGround.GetComponentInChildren<SpriteRenderer>().sprite = slots[currentSlot - 1].sprite;
+            flowerInGround.transform.parent = null;
+            slots[currentSlot - 1].sprite = null;
+            count --;
+            maxSpeed += slowSpeed;
+            jumpSpeed ++;
+            currentSlot --;
+            Debug.Log("SAco");
+        }
     }
 
     void TakeFlower(){

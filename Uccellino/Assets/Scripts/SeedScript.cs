@@ -20,9 +20,7 @@ public class SeedScript : MonoBehaviour
 
     public void FinishedAnimation()
     {
-        Debug.Log(characterVariable.isReadyToPick);
-        characterVariable.isReadyToPick = true;
-        Debug.Log(characterVariable.isReadyToPick);
+        characterVariable.isReadyToPick = true;   
     }
 
 }
