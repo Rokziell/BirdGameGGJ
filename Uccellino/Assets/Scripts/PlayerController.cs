@@ -107,12 +107,13 @@ public class PlayerController : MonoBehaviour
         {
             if (Input.GetButtonDown("Fire1"))
             {
-                slots[currentSlot].sprite = other.GetComponentInChildren<SpriteRenderer>().sprite; 
-                
+                slots[currentSlot].sprite = other.GetComponentInChildren<SpriteRenderer>().sprite;
+
                 other.gameObject.SetActive(false);
                 maxSpeed -= slowSpeed;
-                jumpSpeed --;
+                jumpSpeed--;
                 currentSlot++;
+              
             }
         }
 
@@ -160,12 +161,18 @@ public class PlayerController : MonoBehaviour
 
     void LeaveOnePerTime()
     {
-        slots[currentSlot - 1].sprite = null;
-        count --;
-        maxSpeed += slowSpeed;
-        jumpSpeed ++;
-        currentSlot --;
-        Debug.Log("SAco");
-    }
+        if (slots[currentSlot] != null)
+        {
+            var flowerInGround = Instantiate(flowerPrefab, transform.position + new Vector3(0f, 0.5f, 0), Quaternion.identity);
+            flowerInGround.GetComponentInChildren<SpriteRenderer>().sprite = slots[currentSlot - 1].sprite;
+            flowerInGround.transform.parent = null;
+            slots[currentSlot - 1].sprite = null;
+            count--;
+            maxSpeed += slowSpeed;
+            jumpSpeed++;
+            currentSlot--;
+            Debug.Log("SAco");
 
+        }
+    }
 }

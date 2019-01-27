@@ -17,9 +17,10 @@ public class LeaveOneByOne : MonoBehaviour
     void Update()
     {
         if (Input.GetAxis("Fire2") != 0){
-            //characterVariable.slotAmount[characterVariable.currentSlot].DetachChildren();
+            var flowerInGround = Instantiate(characterVariable.slots[characterVariable.currentSlot], characterVariable.transform);
             Debug.Log("Solte");
             characterVariable.currentSlot = 0;
+            flowerInGround.gameObject.SetActive(true);
         }            
     }
 
