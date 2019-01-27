@@ -17,12 +17,18 @@ public class PlayerAnimationController : MonoBehaviour
     {
         animator = GetComponent<Animator>(); 
         playerController = transform.parent.gameObject.GetComponent<PlayerController>();
+        LeaveFlowersInHouse.gameOverVariable += WIN; 
+    }
+
+    void WIN(){
+        animator.SetTrigger("win"); 
+        rparticles.Stop(); 
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(playerController.CINEMATIC) return;
+        if(playerController.CINEMATIC || Time.timeScale == 0) return;
         //main animations handeling
         if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
         {
