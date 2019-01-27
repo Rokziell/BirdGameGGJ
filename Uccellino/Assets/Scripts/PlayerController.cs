@@ -11,17 +11,19 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     float speed, minSpeed, acceleration;
     Renderer renderSeed;
+    AudioSource walk;
 
     public  float maxSpeed, jumpSpeed, slowSpeed;
 
     public bool grounded = true;
     public bool inWater = false;
+    public bool walking;
     public bool picoteando = false;
     public bool isReadyToPick = false;
 
     Vector3 forward, rigth;
     Rigidbody rigid;
-
+    AudioManager audioManager;
 
     public int count = 0;
     public SpriteRenderer[] slots;
@@ -45,20 +47,33 @@ public class PlayerController : MonoBehaviour
         forward.y = 0;
         forward = Vector3.Normalize(forward);
         rigth = Quaternion.Euler(new Vector3(0, 90, 0)) * forward;
+        audioManager = FindObjectOfType<AudioManager>();
+        walking = false;
     }
 
     void Update()
     {
         if(CINEMATIC)return;
 
-        if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
+        if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
+        {
+            walking = true;
+            Move();
+            Debug.Log("walking: " + walking);
+            }
+
+            if (walking)
             {
-                Move();
+                if(!audioManager.isPlaying("walk"))
+                    audioManager.Play("walk");            
             }
 
             if (Input.GetButtonUp("Horizontal") || Input.GetButtonUp("Vertical"))
             {
                 Decelerate();
+                walking = false;
+                audioManager.Stop("walk");
+            Debug.Log("walkingStop: " + walking);
             }
 
             if (Input.GetButtonDown("Jump") && transform.position.y < 0.6)
@@ -68,6 +83,7 @@ public class PlayerController : MonoBehaviour
             }
 
             if(Input.GetButtonDown("Fire1") && grounded && inWater == false){
+                audioManager.Play("pick");            
                 picoteando = true;
                 Invoke("FinishPico", .75f);
             }
@@ -109,6 +125,13 @@ public class PlayerController : MonoBehaviour
         }
         speed = Mathf.Clamp(speed, 0f, maxSpeed);
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Water")
+            audioManager.Play("jumpWater");
+    }
+
     private void OnTriggerStay(Collider other)
     { 
         if (other.gameObject.tag == "Flower")
@@ -132,6 +155,7 @@ public class PlayerController : MonoBehaviour
                     randomPickFlower = Random.Range(0, 4);
                     Debug.Log(randomPickFlower);
                     var flowerInGround = Instantiate(flowerArray[randomPickFlower], transform.position + new Vector3(0f, 0.0f, 0), Quaternion.identity);
+                    audioManager.Play("popFlower");
                     while (flowerInGround.transform.position.y <= 0.5)
                     {
                         flowerInGround.transform.Translate(Vector3.up * 0.05f);
@@ -149,8 +173,8 @@ public class PlayerController : MonoBehaviour
 
         if(other.gameObject.CompareTag("Water")) {
             inWater = true;
-
-            var playerAnimationController = GetComponentInChildren<PlayerAnimationController>(); 
+            
+            var playerAnimationController = GetComponentInChildren<PlayerAnimationController>();
             playerAnimationController.WaterParticlesFire();
 
             for (int i = currentSlot - 1; i >= 0; i--)
