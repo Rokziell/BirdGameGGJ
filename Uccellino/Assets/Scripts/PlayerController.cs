@@ -15,7 +15,9 @@ public class PlayerController : MonoBehaviour
     public  float maxSpeed, jumpSpeed, slowSpeed;
 
     public bool grounded = true;
+    public bool inWater = false;
     public bool picoteando = false;
+    public bool isReadyToPick = false;
 
     Vector3 forward, rigth;
     Rigidbody rigid;
@@ -24,7 +26,8 @@ public class PlayerController : MonoBehaviour
     public int count = 0;
     public SpriteRenderer[] slots;
     public GameObject flowerPrefab;
-    internal int currentSlot;
+    public GameObject[] flowerArray;
+    internal int currentSlot, randomPickFlower;
 
     internal  Transform floorChild;
     internal Collider targetFlower = null;
@@ -32,7 +35,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rigid = GetComponent<Rigidbody>();
-        jumpSpeed = 3;
+        // jumpSpeed = 3;
         slowSpeed = 1.5f;
         speed = 0f;
         maxSpeed = 7f;
@@ -64,7 +67,7 @@ public class PlayerController : MonoBehaviour
                 rigid.AddForce(Vector3.up * jumpSpeed * 100);
             }
 
-            if(Input.GetButtonDown("Fire1") && grounded){
+            if(Input.GetButtonDown("Fire1") && grounded && inWater == false){
                 picoteando = true;
                 Invoke("FinishPico", .75f);
             }
@@ -107,36 +110,87 @@ public class PlayerController : MonoBehaviour
         speed = Mathf.Clamp(speed, 0f, maxSpeed);
     }
     private void OnTriggerStay(Collider other)
-    {
- 
+    { 
         if (other.gameObject.tag == "Flower")
         {
-            if (Input.GetButtonDown("Fire1"))
+            if (Input.GetButtonDown("Fire1") && (isReadyToPick))
             {
+<<<<<<< HEAD
                 if(targetFlower==null){
                     targetFlower = other; 
                     Invoke("TakeFlower", .5f); 
                 }
+=======
+                slots[currentSlot].sprite = other.GetComponentInChildren<SpriteRenderer>().sprite;
+
+                other.gameObject.SetActive(false);
+                maxSpeed -= slowSpeed;
+                jumpSpeed--;
+                currentSlot++;
+              
+>>>>>>> f25d086159cebd140817a002d779e888a7dc3392
             }
         }
 
         if(other.gameObject.tag == "Seed")
         {
+            IsFlower isFlower = other.GetComponent<IsFlower>();
             if (Input.GetButtonDown("Fire1"))
             {
-                Debug.Log("Colisione con seed");
-                renderSeed = other.gameObject.GetComponent<Renderer>();
-                renderSeed.enabled = true;
-                while (other.transform.position.y <= 0.5)
+                if (isFlower.flower)
                 {
-                    other.transform.Translate(Vector3.up * 0.05f);
+                    randomPickFlower = Random.Range(0, 4);
+                    Debug.Log(randomPickFlower);
+                    var flowerInGround = Instantiate(flowerArray[randomPickFlower], transform.position + new Vector3(0f, 0.0f, 0), Quaternion.identity);
+                    while (flowerInGround.transform.position.y <= 0.5)
+                    {
+                        flowerInGround.transform.Translate(Vector3.up * 0.05f);
+                    }
+                    flowerInGround.transform.parent = null;
+                    isReadyToPick = false;
                 }
-                other.gameObject.tag = "Flower";
+                other.gameObject.SetActive(false);
             }
         }
 
         if(other.gameObject.CompareTag("floor") && transform.position.y < 0.5){
             grounded = true;
+        }
+
+        if(other.gameObject.CompareTag("Water")) {
+            inWater = true;
+
+            for (int i = currentSlot - 1; i >= 0; i--)
+            {
+
+                var flowerInGround = Instantiate(flowerPrefab, transform.position + new Vector3(0f, 0.5f, 0), Quaternion.identity);
+                flowerInGround.GetComponentInChildren<SpriteRenderer>().sprite = slots[currentSlot - 1].sprite;
+
+                if (i == 0)
+                {
+                    flowerInGround.transform.parent = null;
+                }
+                slots[i].sprite = null;
+
+
+                // var flowerInGround = Instantiate(slots[i], transform);
+                // flowerInGround.gameObject.transform.localScale = new Vector3(1, 1, 1);
+
+                // flowerInGround.gameObject.SetActive(true);
+                // flowerInGround.gameObject.transform.parent = null;
+
+                maxSpeed += slowSpeed;
+                jumpSpeed++;
+
+            }
+            currentSlot = 0;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if(other.tag == "Water") {
+            inWater = false;
         }
     }
 
@@ -146,6 +200,9 @@ public class PlayerController : MonoBehaviour
 
     void LeaveOnePerTime()
     {
+        var flowerInGround = Instantiate(flowerPrefab, transform.position + new Vector3(0f, 0.5f, 0), Quaternion.identity);
+        flowerInGround.GetComponentInChildren<SpriteRenderer>().sprite = slots[currentSlot - 1].sprite;
+        flowerInGround.transform.parent = null;
         slots[currentSlot - 1].sprite = null;
         count --;
         maxSpeed += slowSpeed;
