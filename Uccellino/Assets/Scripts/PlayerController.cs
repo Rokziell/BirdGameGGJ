@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rigid = GetComponent<Rigidbody>();
-        jumpSpeed = 3;
+        // jumpSpeed = 3;
         slowSpeed = 1.5f;
         speed = 0f;
         maxSpeed = 7f;
@@ -134,6 +134,17 @@ public class PlayerController : MonoBehaviour
 
         if(other.gameObject.CompareTag("floor") && transform.position.y < 0.5){
             grounded = true;
+        }
+
+        if(other.gameObject.CompareTag("Water")) {
+            for (int i = currentSlot - 1; i >= 0; i--)
+            {
+                Debug.Log(i);
+                slots[i].sprite = null;
+                maxSpeed += slowSpeed;
+                jumpSpeed++;
+            }
+            currentSlot = 0;
         }
     }
 
