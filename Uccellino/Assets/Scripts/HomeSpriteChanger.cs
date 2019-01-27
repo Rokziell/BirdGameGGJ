@@ -22,6 +22,10 @@ public class HomeSpriteChanger : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> 87915df133d9ff462116241db1aae6ee1557a845
     }
 }

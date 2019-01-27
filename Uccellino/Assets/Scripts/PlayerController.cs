@@ -30,7 +30,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rigid = GetComponent<Rigidbody>();
-        jumpSpeed = 3;
+        // jumpSpeed = 3;
         slowSpeed = 1.5f;
         speed = 0f;
         maxSpeed = 7f;
@@ -108,12 +108,13 @@ public class PlayerController : MonoBehaviour
         {
             if (Input.GetButtonDown("Fire1") && (isReadyToPick))
             {
-                slots[currentSlot].sprite = other.GetComponentInChildren<SpriteRenderer>().sprite; 
-                
+                slots[currentSlot].sprite = other.GetComponentInChildren<SpriteRenderer>().sprite;
+
                 other.gameObject.SetActive(false);
                 maxSpeed -= slowSpeed;
-                jumpSpeed --;
+                jumpSpeed--;
                 currentSlot++;
+              
             }
         }
 
@@ -140,6 +141,24 @@ public class PlayerController : MonoBehaviour
 
         if(other.gameObject.CompareTag("floor") && transform.position.y < 0.5){
             grounded = true;
+        }
+
+        if(other.gameObject.CompareTag("Water")) {
+            for (int i = currentSlot - 1; i >= 0; i--)
+            {
+                var flowerInGround = Instantiate(slots[i], transform);
+                // flowerInGround.gameObject.transform.localScale = new Vector3(1, 1, 1);
+
+                flowerInGround.gameObject.SetActive(true);
+                flowerInGround.gameObject.transform.parent = null;
+
+
+                slots[i].sprite = null;
+                maxSpeed += slowSpeed;
+                jumpSpeed++;
+
+            }
+            currentSlot = 0;
         }
     }
 
