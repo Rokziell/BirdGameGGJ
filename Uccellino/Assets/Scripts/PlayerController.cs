@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     public  float maxSpeed, jumpSpeed, slowSpeed;
 
     public bool grounded = true;
+    public bool inWater = false;
     public bool picoteando = false;
     public bool isReadyToPick = false;
 
@@ -60,7 +61,7 @@ public class PlayerController : MonoBehaviour
                 rigid.AddForce(Vector3.up * jumpSpeed * 100);
             }
 
-            if(Input.GetButtonDown("Fire1") && grounded){
+            if(Input.GetButtonDown("Fire1") && grounded && inWater == false){
                 picoteando = true;
                 Invoke("FinishPico", .75f);
             }
@@ -144,21 +145,39 @@ public class PlayerController : MonoBehaviour
         }
 
         if(other.gameObject.CompareTag("Water")) {
+            inWater = true;
+
             for (int i = currentSlot - 1; i >= 0; i--)
             {
-                var flowerInGround = Instantiate(slots[i], transform);
+
+                var flowerInGround = Instantiate(flowerPrefab, transform.position + new Vector3(0f, 0.5f, 0), Quaternion.identity);
+                flowerInGround.GetComponentInChildren<SpriteRenderer>().sprite = slots[currentSlot - 1].sprite;
+
+                if (i == 0)
+                {
+                    flowerInGround.transform.parent = null;
+                }
+                slots[i].sprite = null;
+
+
+                // var flowerInGround = Instantiate(slots[i], transform);
                 // flowerInGround.gameObject.transform.localScale = new Vector3(1, 1, 1);
 
-                flowerInGround.gameObject.SetActive(true);
-                flowerInGround.gameObject.transform.parent = null;
+                // flowerInGround.gameObject.SetActive(true);
+                // flowerInGround.gameObject.transform.parent = null;
 
-
-                slots[i].sprite = null;
                 maxSpeed += slowSpeed;
                 jumpSpeed++;
 
             }
             currentSlot = 0;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if(other.tag == "Water") {
+            inWater = false;
         }
     }
 
