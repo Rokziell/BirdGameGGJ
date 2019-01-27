@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
     float speed, minSpeed, acceleration;
     Renderer renderSeed;
 
-    public  float maxSpeed, jumpSpeed, slowSpeed;
+    public  float maxSpeed, jumpSpeed, slowSpeed, slowJump;
 
     public bool grounded = true;
     public bool inWater = false;
@@ -35,8 +35,6 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rigid = GetComponent<Rigidbody>();
-        // jumpSpeed = 3;
-        slowSpeed = 1.5f;
         speed = 0f;
         maxSpeed = 7f;
         minSpeed = 0f;
@@ -157,7 +155,7 @@ public class PlayerController : MonoBehaviour
             {
                 slots[i].sprite = null;
                 maxSpeed += slowSpeed;
-                jumpSpeed++;
+                jumpSpeed += slowJump;
             }
             currentSlot = 0;
         }
@@ -184,7 +182,7 @@ public class PlayerController : MonoBehaviour
             slots[currentSlot - 1].sprite = null;
             count --;
             maxSpeed += slowSpeed;
-            jumpSpeed ++;
+            jumpSpeed += slowJump;
             currentSlot --;
             Debug.Log("SAco");
         }
@@ -195,7 +193,7 @@ public class PlayerController : MonoBehaviour
                 
                 targetFlower.gameObject.SetActive(false);
                 maxSpeed -= slowSpeed;
-                jumpSpeed --;
+                jumpSpeed -= slowJump;
                 currentSlot++;
             
             targetFlower = null; 
