@@ -9,6 +9,7 @@ public class LeaveFlowersInHouse : MonoBehaviour
     public int maxFlowersInHouse;
     private int flowersInTheHouse, flowersForNextLevel, rangeToNextLevel;
     public float timeDelay;
+    public ParticleSystem flowerParticles; 
 
     // Start is called before the first frame update
     void Start()
@@ -29,6 +30,11 @@ public class LeaveFlowersInHouse : MonoBehaviour
     {
         if (other.tag == "House")
         {
+            //si voy a dejar flores, reproduzco el sistema de particulas.
+            if(characterVariable.currentSlot > 0 && flowerParticles){
+                flowerParticles.Play(); 
+            }
+
             for (int i = characterVariable.currentSlot - 1; i >= 0; i--)
             {
                 Debug.Log(i);
@@ -39,12 +45,13 @@ public class LeaveFlowersInHouse : MonoBehaviour
             }
             
             characterVariable.currentSlot = 0;
+            //ganamos. 
             if (flowersInTheHouse >= maxFlowersInHouse)
             {
+                characterVariable.CINEMATIC = true;
+                gameOverVariable();
                 homeChanger.currentHomeSprite++;
                 homeChanger.spriteRenderer.sprite = homeChanger.homeSprites[homeChanger.currentHomeSprite];
-                Debug.Log("GAME OVER!!!!");
-                gameOverVariable();
             }
             CheckForLevelUpgrade();     
         }
@@ -58,6 +65,6 @@ public class LeaveFlowersInHouse : MonoBehaviour
             Invoke("CheckForLevelUpgrade", timeDelay); 
         }
     }
-    delegate void GameOver();
-    GameOver gameOverVariable;
+    public delegate void GameOver();
+    static public GameOver gameOverVariable;
 }

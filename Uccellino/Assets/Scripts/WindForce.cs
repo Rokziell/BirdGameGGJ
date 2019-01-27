@@ -24,16 +24,19 @@ public class WindForce : MonoBehaviour
     {
         playerController = playerRigid.gameObject.GetComponent<PlayerController>(); 
         randomTimeBeteweenWind = Random.Range(minTime, maxTime);
-        StartCoroutine(SpawnWind());
+        
         windForceNumber = Random.Range(minWindForce, maxWindForce);
         isReadyToStart = true;
+        InvokeRepeating("WIND", 0f, 4f); 
     }
 
     // Update is called once per frame
     void Update()
     {
     }
-
+    void  WIND(){
+        StartCoroutine(SpawnWind());
+    }
     IEnumerator SpawnWind()
     {
         if(!playerController.CINEMATIC){
@@ -65,6 +68,5 @@ public class WindForce : MonoBehaviour
         yield return new WaitForSeconds(randomTimeBeteweenWind);
 
         }
-        StartCoroutine(SpawnWind());
     }
 }

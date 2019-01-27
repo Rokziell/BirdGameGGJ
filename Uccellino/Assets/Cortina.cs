@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement; 
 
 [ExecuteInEditMode]
 public class Cortina : MonoBehaviour {
@@ -12,6 +13,7 @@ public class Cortina : MonoBehaviour {
 
     public bool RevealOnAwake = false; 
 
+    public bool isMenu = true; 
     public bool on = true;
     [Range(0.01f,2f)]
     public float  speed  = 0.02f;
@@ -26,6 +28,7 @@ public class Cortina : MonoBehaviour {
 		audio = GetComponent<AudioSource>();
         lastState = on;
         if(RevealOnAwake){
+            currentPos = 1.1f; 
             on = false; 
         }
     }
@@ -49,6 +52,28 @@ public class Cortina : MonoBehaviour {
         currentPos = Mathf.Clamp(currentPos, 0, 1.1f); 
         effectMaterial.SetFloat("_Cutoff", currentPos);
 
+
+        if(Input.GetButtonDown("Submit") && isMenu){
+           if(on){
+               ContinueGame(); 
+           }else{
+                PauseGame(); 
+            }
+        }
+    }
+    public void ContinueGame(){
+        on = false; 
+        Time.timeScale = 1; 
+    }
+    public void PauseGame(){
+        Time.timeScale = 0; 
+        on = true; 
+        currentPos = .3f; 
+    }
+
+    public void GoToTitle(){
+        Time.timeScale = 1; 
+        SceneManager.LoadScene(0); 
     }
 
 	public void PlayClip(){
@@ -61,6 +86,8 @@ public class Cortina : MonoBehaviour {
     {
         Graphics.Blit(source, destination, effectMaterial);
     }
+
+
 
     public void On()
     {
