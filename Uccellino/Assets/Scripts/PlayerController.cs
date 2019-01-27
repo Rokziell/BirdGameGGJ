@@ -138,10 +138,17 @@ public class PlayerController : MonoBehaviour
         if(other.gameObject.CompareTag("Water")) {
             for (int i = currentSlot - 1; i >= 0; i--)
             {
-                Debug.Log(i);
+                var flowerInGround = Instantiate(slots[i], transform);
+                // flowerInGround.gameObject.transform.localScale = new Vector3(1, 1, 1);
+
+                flowerInGround.gameObject.SetActive(true);
+                flowerInGround.gameObject.transform.parent = null;
+
+
                 slots[i].sprite = null;
                 maxSpeed += slowSpeed;
                 jumpSpeed++;
+
             }
             currentSlot = 0;
         }
