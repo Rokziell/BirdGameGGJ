@@ -40,7 +40,7 @@ public class LeaveFlowersInHouse : MonoBehaviour
                 Debug.Log(i);
                 characterVariable.slots[i].sprite = null;
                 characterVariable.maxSpeed += characterVariable.slowSpeed;
-                characterVariable.jumpSpeed++;
+                characterVariable.jumpSpeed+= characterVariable.slowJump;
                 flowersInTheHouse++;
             }
             
