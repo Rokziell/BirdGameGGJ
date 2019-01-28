@@ -57,7 +57,6 @@ public class PlayerController : MonoBehaviour
         {
             walking = true;
             Move();
-            Debug.Log("walking: " + walking);
             }
 
             if (walking)
@@ -71,7 +70,6 @@ public class PlayerController : MonoBehaviour
                 Decelerate();
                 walking = false;
                 audioManager.Stop("walk");
-            Debug.Log("walkingStop: " + walking);
             }
 
             if (Input.GetButtonDown("Jump") && transform.position.y < 0.6)
@@ -138,7 +136,7 @@ public class PlayerController : MonoBehaviour
             {
                 if(targetFlower==null){
                     targetFlower = other; 
-                    Invoke("TakeFlower", .5f); 
+                    Invoke("TakeFlower", .5f);
                 }
             }
         }
@@ -151,7 +149,6 @@ public class PlayerController : MonoBehaviour
                 if (isFlower.flower)
                 {
                     randomPickFlower = Random.Range(0, 4);
-                    Debug.Log(randomPickFlower);
                     var flowerInGround = Instantiate(flowerArray[randomPickFlower], transform.position + new Vector3(0f, 0.0f, 0), Quaternion.identity);
                     audioManager.Play("popFlower");
                     while (flowerInGround.transform.position.y <= 0.5)
@@ -213,14 +210,17 @@ public class PlayerController : MonoBehaviour
     }
 
     void TakeFlower(){
-        slots[currentSlot].sprite = targetFlower.GetComponentInChildren<SpriteRenderer>().sprite; 
-                
-                targetFlower.gameObject.SetActive(false);
-                maxSpeed -= slowSpeed;
-                jumpSpeed -= slowJump;
-                currentSlot++;
-            
-            targetFlower = null; 
+        if (currentSlot < 5)
+        {
+            slots[currentSlot].sprite = targetFlower.GetComponentInChildren<SpriteRenderer>().sprite;
+
+            targetFlower.gameObject.SetActive(false);
+            maxSpeed -= slowSpeed;
+            jumpSpeed -= slowJump;
+            currentSlot++;
+
+        }
+        targetFlower = null;
     }
 
 }
